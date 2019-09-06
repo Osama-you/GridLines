@@ -1,4 +1,5 @@
 import SideBar from "../sideBar/SideBar.js";
+import DrawingSpace from "../drawingSpace/DrawingSpace.js";
 
 class App{
     constructor(){
@@ -20,8 +21,13 @@ class App{
         sidebar.setParent(root);
         // show the SideBar
         sidebar.display();
+        // console.log(root.clientWidth)
+        // root.style.margin = sidebar.getInitWidth();
 
-        root.style.margin = `0 ${sidebar.getInitWidth()}`;
+        const DS = new DrawingSpace();
+        DS.setParent(root);
+        DS.display();
+
     }
 }
 
