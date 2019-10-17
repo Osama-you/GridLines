@@ -7,6 +7,10 @@ class App{
 
     }
     run(){
+        //create style tag
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        document.getElementsByTagName('head')[0].appendChild(style);
         // get the bodya
         const tools = new Tools();
         const root = document.querySelector("#root");
@@ -25,10 +29,10 @@ class App{
         topBar.display();
 
         // add grid to the root
-        const rowsSty = ` 
-                        height: 100%;
-                        display: grid;
-                        grid-template-rows: ${topBar.getHeight()}px auto;`
+        const rowsSty = 
+                        "height: 100%;"+
+                        "\n\tdisplay: grid;"+
+                        `\n\tgrid-template-rows: ${topBar.getHeight()}px auto;`
                         
         tools.createClass(root,"rows",rowsSty);
 
