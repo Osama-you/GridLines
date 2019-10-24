@@ -1,6 +1,7 @@
 import TopBar from "../topBar/TopBar.js";
 import DrawingSpace from "../drawingSpace/DrawingSpace.js";
-import Tools from "../tools/Tools.js";
+
+import ToolsHelper from "../toolsHelper/ToolsHelper.js";
 
 class App{
     constructor(){
@@ -12,7 +13,7 @@ class App{
         style.type = 'text/css';
         document.getElementsByTagName('head')[0].appendChild(style);
         // get the bodya
-        const tools = new Tools();
+        const toolsHelper = new ToolsHelper();
         const root = document.querySelector("#root");
         // set the coloer for body
         root.style.backgroundColor = "#FFFCF7";
@@ -30,11 +31,11 @@ class App{
 
         // add grid to the root
         const rowsSty = 
-                        "height: 100%;"+
-                        "\n\tdisplay: grid;"+
-                        `\n\tgrid-template-rows: ${topBar.getHeight()}px auto;`
+                    "height: 100%;"+
+                    "\n\tdisplay: grid;"+
+                    `\n\tgrid-template-rows: ${topBar.getHeight()}px auto;`
                         
-        tools.createClass(root,"rows",rowsSty);
+        toolsHelper.createClass(root,"rows",rowsSty);
 
 
         const DS = new DrawingSpace();

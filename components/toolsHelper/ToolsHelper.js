@@ -1,4 +1,4 @@
-class Tools{
+class ToolsHelper {
     constructor(){
 
     }
@@ -18,4 +18,4 @@ class Tools{
 
 }
 
-export default Tools;
+export default ToolsHelper;
