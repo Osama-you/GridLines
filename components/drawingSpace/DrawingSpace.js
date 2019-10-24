@@ -10,10 +10,10 @@ class DrawingSpace{
           "display: grid;"+
           "\n\tgrid-template-rows: 30% auto 30%;"+
           "\n\tposition:relative;",
-        centerColClass:
+        centerCol:
           "display: grid;"+
           "\n\tgrid-template-columns:30% auto 30%;",
-        circleClass:
+        circle:
           "position: absolute;"+
           "\n\tz-index: -1;"+
           "\n\ttop: 0;"+
@@ -104,8 +104,8 @@ class DrawingSpace{
     fillThaPixel(){
         this.style.backgroundColor = "red";
     }
-    
-    // 
+
+    // create node
     createNode(element){
         element.className = "node" ;
         let outputList = [];
@@ -125,8 +125,30 @@ class DrawingSpace{
         return outputList;
     }
 
-    allTheShape(top,right,bottom,left,circleInCenter,listOfDirDivs=[]){
+    // add the right css class to nade depending on desired shape
+    dot(element){
+        element.className += " dot";
+    }
+    horizontalLine(element){
+        element.className += " horizontalLine";
+    }
+    verticalLine(element){
+        element.className += " verticalLine";
+    }
+    startLine(element, dir){
+        if(dir === "top"){//
+            element.className += "startLine_top";
+        }else if(dir === "right"){
+            element.className += " startLine_right";
+        }else if(dir === "bottom"){//
+            element.className += " startLine_bottom";
+        }else if(dir === "left"){
+            element.className += " startLine_left";
+        }
+    }
 
+    // using function at the top the get the finel shape 
+    allTheShape(top,right,bottom,left,circleInCenter,listOfDirDivs=[]){//
         if(circleInCenter == 1){
             this.dot(listOfDirDivs[3]);
 
@@ -167,16 +189,18 @@ class DrawingSpace{
             }
         }
         return  " edited "+top+right+bottom+left+circleInCenter;
-    }
+    }//
 
     top = "0";
     right = "0" ;
     bottom = "0" ;
     left = "0" ;
     listEle=[];
-    te(element){
+
+    // chack nodes around the node to determine it these should change or not
+    chackNodes(element){//
         this.listEl=[];
-        this.top    = "0";
+        this.top    = "0" ;
         this.right  = "0" ;
         this.bottom = "0" ;
         this.left   = "0" ;
@@ -194,7 +218,7 @@ class DrawingSpace{
                 this.listEl.push(this.listOfNodes[tempIandJ[0]][parseInt(tempIandJ[1],10)+1]);
             }
         }
-        if(tempIandJ[0]!=this.listOfNodes.length-2){
+        if(tempIandJ[0]!=this.listOfNodes.length-1){
             if(this.listOfNodes[parseInt(tempIandJ[0],10)+1][tempIandJ[1]].classList.contains("edited")){
                 this.bottom="1";
                 this.listEl.push(this.listOfNodes[parseInt(tempIandJ[0],10)+1][tempIandJ[1]]);
@@ -206,66 +230,57 @@ class DrawingSpace{
                 this.listEl.push(this.listOfNodes[tempIandJ[0]][tempIandJ[1]-1]);
             }
         }
-       
-        console.log(this.top+this.right+this.bottom+this.left)
-        return this.top+this.right+this.bottom+this.left;
-    }
 
-    test(element,listOfDirDivs){
-        let aa=this.te(element);
-        let dt = aa.split("");
+        return this.top+this.right+this.bottom+this.left;
+    }//
+
+    // display the desired shape in the node
+    displayNode(element,listOfDirDivs){//
+        let TRBL=this.chackNodes(element);
+        let dt = TRBL.split("");
         let cont = 0;
         for (let i = 0; i < dt.length; i++) {
             (dt[i]==1)?cont++:cont=0;
-            // if(dt[i]+dt[i+1]== "10" && cont!=2 && aa ==! "1000"&& aa ==! "0010"){
-
-            // }else{
-
-            // }
             if(cont==2){ //1100 1110 1111 0011 0110 0111 1101 1011
                 element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
                 break;
             }
         }
-        if(aa=="1000"){
+        if(TRBL=="1000"){
             element.className += this.allTheShape(this.bottom,this.right,this.top,this.left,"0",listOfDirDivs);
-        }else if(aa=="0100"){
+        }else if(TRBL=="0100"){
             element.className += this.allTheShape(this.top,this.left,this.bottom,this.right,"0",listOfDirDivs);
-        }else if(aa=="0010"){
+        }else if(TRBL=="0010"){
             element.className += this.allTheShape(this.bottom,this.right,this.top,this.left,"0",listOfDirDivs);
-        }else if(aa=="0001"){
+        }else if(TRBL=="0001"){
             element.className += this.allTheShape(this.top,this.left,this.bottom,this.right,"0",listOfDirDivs);
-        }else if(aa=="1010"){
+        }else if(TRBL=="1010"){
             element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"0",listOfDirDivs);
-        }else if(aa=="0101"){
+        }else if(TRBL=="0101"){
             element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"0",listOfDirDivs);
-        }else if(aa=="1001"){
+        }else if(TRBL=="1001"){
             element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
         }else{
             element.className += this.allTheShape("0","0","0","0","1",listOfDirDivs);
         }            
-
-    }
-    listOfNodes=[[]]; 
-    display(){
+    }//
+    
+    listOfNodes=[]; 
+    display(){//
         // add the drawingSpace 
         this.parent.appendChild(this.drawingSpace);
        
         //set the styles
           //create same Css Class
+
+        let cssClassList=["node","centerCol","circle","drawingSpace","dot","horizontalLine"
+            ,"verticalLine","startLine_top","startLine_right","startLine_bottom","startLine_left"]
+        
         let toolsHelper = new ToolsHelper();
-        toolsHelper.createClass(null,"node",this.style.node);
-        toolsHelper.createClass(null,"centerCol",this.style.centerColClass);
-        toolsHelper.createClass(null,"circle",this.style.circleClass);
-        toolsHelper.createClass(null,"drawingSpace",this.style.drawingSpace);
-            // Nodes Shape Classes
-        toolsHelper.createClass(null,"dot",this.style.dot);
-        toolsHelper.createClass(null,"horizontalLine",this.style.horizontalLine);
-        toolsHelper.createClass(null,"verticalLine",this.style.verticalLine);
-        toolsHelper.createClass(null,"startLine_top",this.style.startLine_top);
-        toolsHelper.createClass(null,"startLine_right",this.style.startLine_right);
-        toolsHelper.createClass(null,"startLine_bottom",this.style.startLine_bottom);
-        toolsHelper.createClass(null,"startLine_left",this.style.startLine_left);
+        cssClassList.forEach(element => {
+            toolsHelper.createClass(null,element,this.style[element]);
+        });
+
         //set the class for drawing Space
         this.drawingSpace.className = "drawingSpace";
 
@@ -285,107 +300,58 @@ class DrawingSpace{
         this.drawingSpace.style.gridTemplateRows= `repeat(${pixelH_No}, ${this.pixelWidth}px)`;
 
         // create and set the all div in drawing space
-        let a = 0;
-        let i = 0;
-        let j = 0;
-        console.log(pixelW_No);
-        let x=pixelW_No;
-        while (a<(pixelH_No*pixelW_No)) {
-            let timp = document.createElement("div");
-            timp.style.width=this.pixelWidth;
-            timp.style.height=this.pixelHeight;
-            timp.id=i+","+j;
-            this.listOfNodes[i][j]=timp;
+        for (let i = 0; i < pixelH_No; i++) {
+            this.listOfNodes[i]=[];
+            for (let j = 0; j < pixelW_No; j++) {
+                let timp = document.createElement("div");
 
-            let listOfDirDivs=this.createNode(timp);
-            // EVENT
-            timp.addEventListener("click",(w) =>{
-                if(!timp.classList.contains("edited")){
-                    
-                    this.test(timp,listOfDirDivs);
-                    
-                    this.listEl.forEach((a)=>{
-                        a.innerHTML="";
-                        let listOfDirDivs=this.createNode(a);
-                        this.test(a,listOfDirDivs);  
+                timp.id=i+","+j;
+                this.listOfNodes[i][j]=timp;
+
+                let listOfDirDivs=this.createNode(timp);
+                // EVENT
+                // this.drawingSpace.addEventListener('mousedown', function (evt) {
+                //     timp.addEventListener('click', function handler(evt) {
+                //         console.log("sss")
+                //         if (evt.type === 'mouseup') {
+                //             console.log("asd")
+                //         // click
+                //       } else {
+                //         // drag
+                       
+                //       }
+                //     });
+                //   });
+
+                  let drag = false;
+
+                document.addEventListener('mousedown', () => drag = true);
+                
+                document.addEventListener('mouseup', () =>  drag = false);
+                document.addEventListener('drag', () =>  drag = false);
+                document.addEventListener('drop', () =>  drag = false);
+                // document.addEventListener('click', () => {});
+                // document.addEventListener('mousemove', () => {});
+                timp.addEventListener("mousemove",(e) =>{
+                    if(!timp.classList.contains("edited") && drag){
                         
-                        console.log(a);
-                    });
-                }
-            });
+                        this.displayNode(timp,listOfDirDivs);
+                        
+                        this.listEl.forEach((element)=>{
+                            element.innerHTML="";
+                            let listOfDirDivs=this.createNode(element);
+                            this.displayNode(element,listOfDirDivs);  
+                        });
+                    }
+                });
 
-            this.drawingSpace.appendChild(timp);
-            if(j == pixelW_No-1){
-                i++
-                this.listOfNodes[i]=[];
-                j=0;
-            }else{
-                j++
+                this.drawingSpace.appendChild(timp);
             }
-            a++;
-        }
+        } 
+
         this.drawingSpace.style.margin="auto";
         this.drawingSpace.style.height = `${newHeight}%`;
-    }
-
-    dot(element){
-        element.className += " dot";
-        // timp.style.margin="8.7px";
-        // timp.style.border="3px solid #844C18";
-        // timp.style.borderRadius="50%"
-        // timp.style.backgroundColor = "#F37C22 ";
-    }
-    horizontalLine(element){
-        element.className += " horizontalLine";
-        // timp.style.margin="3px 0";
-        // timp.style.borderTop="3px solid #844C18";
-        // timp.style.borderBottom="3px solid #844C18";
-        // timp.style.backgroundColor = "#F37C22 ";
-    }
-    verticalLine(element){
-        element.className += " verticalLine";
-        // timp.style.margin="0 15px";
-        // timp.style.borderLeft="3px solid #844C18";
-        // timp.style.borderRight="3px solid #844C18";
-        // timp.style.backgroundColor = "#F37C22 ";
-    }
-
-    startLine(element, dir){
-        if(dir === "top"){//
-            element.className += "startLine_top";
-            // timp.style.margin="0px 15px";
-            // timp.style.borderRight="3px solid #844C18";
-            // timp.style.borderTop="3px solid #844C18";
-            // timp.style.borderLeft="3px solid #844C18";
-            // timp.style.borderRadius="15px 15px 0 0"
-            // timp.style.backgroundColor = "#F37C22 ";
-        }else if(dir === "right"){
-            element.className += " startLine_right";
-            // timp.style.margin="15px 0px";
-            // timp.style.borderTop="3px solid #844C18";
-            // timp.style.borderBottom="3px solid #844C18";
-            // timp.style.borderRight="3px solid #844C18";
-            // timp.style.borderRadius="0 15px 15px 0"
-            // timp.style.backgroundColor = "#F37C22 ";
-        }else if(dir === "bottom"){//
-            element.className += " startLine_bottom";
-            // timp.style.margin="0px 15px";
-            // timp.style.borderRight="3px solid #844C18";
-            // timp.style.borderBottom="3px solid #844C18";
-            // timp.style.borderLeft="3px solid #844C18";
-            // timp.style.borderRadius="0 0 15px 15px"
-            // timp.style.backgroundColor = "#F37C22 ";
-        }else if(dir === "left"){
-            element.className += " startLine_left";
-            // timp.style.margin="15px 0px";
-            // timp.style.borderTop="3px solid #844C18";
-            // timp.style.borderBottom="3px solid #844C18";
-            // timp.style.borderLeft="3px solid #844C18";
-            // timp.style.borderRadius="15px 0 0 15px"
-            // timp.style.backgroundColor = "#F37C22 ";
-        }
-
-    }
+    }//
 
 }
 
