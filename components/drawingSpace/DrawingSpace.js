@@ -58,20 +58,21 @@ class DrawingSpace{
           "\n\tborder-radius: 15px 0 0 15px;",
         colorLine_F37C22:
           "background-color: #F37C22;"+
-          "\n\tborder-color: #844C18;"
-        // colorLine_F300B4:
-        //   "background-color: #F300B4;"+
-        //   "\n\tborder-color: #840065;"
+          "\n\tborder-color: #844C18;",
+        colorLine_F300B4:
+          "background-color: #F300B4;"+
+          "\n\tborder-color: #840065;"
 
     };
 
-    constructor(pixelWidth = 40 ,pixelHeight = 40 ,height ,lineColor ,parent) {
+    constructor(pixelWidth = 40 ,pixelHeight = 40 ,height ,lineColor = "F37C22" ,parent) {
         this.drawingSpace = document.createElement("div");
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
         this.height = height;
         this.parent = parent;
         this.lineColor = lineColor;
+        this.privetColor="";
     }
 
     // getters and setters
@@ -111,6 +112,7 @@ class DrawingSpace{
 
     // create node
     createNode(element){
+       
         element.className = "node" ;
         let outputList = [];
         for(let i = 0 ;i <= 6 ;i++){
@@ -131,23 +133,23 @@ class DrawingSpace{
 
     // add the right css class to nade depending on desired shape
     dot(element){
-        element.className += " dot colorLine_F37C22";
+        element.className += " dot colorLine_"+this.getLineColor();
     }
     horizontalLine(element){
-        element.className += " horizontalLine colorLine_F37C22";
+        element.className += " horizontalLine colorLine_"+this.getLineColor();
     }
     verticalLine(element){
-        element.className += " verticalLine colorLine_F37C22";
+        element.className += " verticalLine colorLine_"+this.getLineColor();
     }
     startLine(element, dir){
         if(dir === "top"){//
-            element.className += " startLine_top colorLine_F37C22";
+            element.className += " startLine_top colorLine_"+this.getLineColor();
         }else if(dir === "right"){
-            element.className += " startLine_right colorLine_F37C22";
+            element.className += " startLine_right colorLine_"+this.getLineColor();
         }else if(dir === "bottom"){//
-            element.className += " startLine_bottom colorLine_F37C22";
+            element.className += " startLine_bottom colorLine_"+this.getLineColor();
         }else if(dir === "left"){
-            element.className += " startLine_left colorLine_F37C22";
+            element.className += " startLine_left colorLine_"+this.getLineColor();
         }
     }
 
@@ -192,7 +194,7 @@ class DrawingSpace{
                 listOfDirDivs[4].style.margin="3px 0";
             }
         }
-        return  "node edited "+top+right+bottom+left+circleInCenter;
+        return  "node edited "+top+right+bottom+left+circleInCenter+" "+this.lineColor;
     }//
 
     top = "0";
@@ -265,6 +267,7 @@ class DrawingSpace{
     
     listOfNodes=[]; 
     display(){//
+        this.privetColor = this.lineColor ;
         // add the drawingSpace 
         this.parent.appendChild(this.drawingSpace);
        
@@ -276,9 +279,7 @@ class DrawingSpace{
             ,"colorLine_F37C22","colorLine_F300B4"]
         
         let toolsHelper = new ToolsHelper();
-        cssClassList.forEach(element => {
-            toolsHelper.createClass(null,element,this.style[element]);
-        });
+        toolsHelper.setClassList(cssClassList,this.style);
 
         //set the class for drawing Space
         this.drawingSpace.className = "drawingSpace";
@@ -319,12 +320,17 @@ class DrawingSpace{
                     if(!timp.classList.contains("edited") && drag){
 
                         this.displayNode(timp,listOfDirDivs);
-                        
+
+                        let temp = this.lineColor ;
                         this.listEl.forEach((element)=>{
                             element.innerHTML="";
+
+                            this.lineColor = element.className.trim().split(" ")[3];
+
                             let listOfDirDivs=this.createNode(element);
                             this.displayNode(element,listOfDirDivs);  
                         });
+                        this.lineColor = temp ;
                     }
                 });
 

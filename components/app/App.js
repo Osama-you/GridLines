@@ -26,6 +26,10 @@ class App{
         topBar.setHeight("50");
         topBar.setParent(root);
 
+        topBar.addElement_color("F37C22");
+        topBar.addElement_color("F300B4");
+        // topBar.addElement_color();
+
         // show the SideBar
         topBar.display();
 
@@ -42,8 +46,17 @@ class App{
 
         DS.setHeight(topBar.getHeight());
         DS.setParent(root);
-        // DS.setLineColor("#F37C22");
+        DS.setLineColor("F37C22");
         DS.display();
+        let cal =topBar.getcolorC();
+        setInterval(function(){ 
+            if(cal!=topBar.getcolorC()){
+                DS.setLineColor(topBar.getcolorC());
+                cal =topBar.getcolorC();
+            }
+            
+        
+        });
         
     }
 }

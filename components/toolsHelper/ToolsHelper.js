@@ -15,6 +15,11 @@ class ToolsHelper {
             console.error("error in createSelector(): "+error);
         }
     }
+    setClassList(cssClassNameList,cssClassList){
+        cssClassNameList.forEach(element => {
+            this.createClass(null,element,cssClassList[element]);
+        });
+    }
 
 }
 
