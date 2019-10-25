@@ -61,7 +61,16 @@ class DrawingSpace{
           "\n\tborder-color: #844C18;",
         colorLine_F300B4:
           "background-color: #F300B4;"+
-          "\n\tborder-color: #840065;"
+          "\n\tborder-color: #840065;",
+        colorLine_2ECC71:
+          "background-color: #2ECC71 ;"+
+          "\n\tborder-color: #196F3D;",
+        colorLine_E74C3C :
+          "background-color: #E74C3C;"+
+          "\n\tborder-color: #641E16 ;",
+        colorLine_8E44AD:
+          "background-color: #8E44AD;"+
+          "\n\tborder-color: #4A235A ;",
 
     };
 
@@ -276,7 +285,7 @@ class DrawingSpace{
 
         let cssClassList=["node","centerCol","circle","drawingSpace","dot","horizontalLine"
             ,"verticalLine","startLine_top","startLine_right","startLine_bottom","startLine_left"
-            ,"colorLine_F37C22","colorLine_F300B4"]
+            ,"colorLine_F37C22","colorLine_F300B4","colorLine_2ECC71", "colorLine_E74C3C", "colorLine_8E44AD"]
         
         let toolsHelper = new ToolsHelper();
         toolsHelper.setClassList(cssClassList,this.style);

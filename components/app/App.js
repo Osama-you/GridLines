@@ -28,7 +28,9 @@ class App{
 
         topBar.addElement_color("F37C22");
         topBar.addElement_color("F300B4");
-        // topBar.addElement_color();
+        topBar.addElement_color("2ECC71");
+        topBar.addElement_color("E74C3C");
+        topBar.addElement_color("8E44AD");
 
         // show the SideBar
         topBar.display();
@@ -54,8 +56,6 @@ class App{
                 DS.setLineColor(topBar.getcolorC());
                 cal =topBar.getcolorC();
             }
-            
-        
         });
         
     }
