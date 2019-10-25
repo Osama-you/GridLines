@@ -42,6 +42,7 @@ class App{
 
         DS.setHeight(topBar.getHeight());
         DS.setParent(root);
+        // DS.setLineColor("#F37C22");
         DS.display();
         
     }

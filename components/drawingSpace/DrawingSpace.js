@@ -22,55 +22,56 @@ class DrawingSpace{
           "\n\tright: 0;",
         dot:
           "margin: 8.7px;"+
-          "\n\tborder: 3px solid #844C18;"+
-          "\n\tborder-radius: 50%;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder: 3px solid;"+
+          "\n\tborder-radius: 50%;",
         horizontalLine:
           "margin: 3px 0;"+
-          "\n\tborder-top: 3px solid #844C18;"+
-          "\n\tborder-bottom: 3px solid #844C18;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder-top: 3px solid;"+
+          "\n\tborder-bottom: 3px solid;",
         verticalLine:
           "margin: 0 15px;"+
-          "\n\tborder-left: 3px solid #844C18;"+
-          "\n\tborder-right: 3px solid #844C18;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder-left: 3px solid;"+
+          "\n\tborder-right: 3px solid;",
         startLine_top:
           "margin: 0 15px;"+
-          "\n\tborder-left: 3px solid #844C18;"+
-          "\n\tborder-right: 3px solid #844C18;"+
-          "\n\tborder-top: 3px solid #844C18;"+
-          "\n\tborder-radius: 15px 15px 0 0;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder-left: 3px solid;"+
+          "\n\tborder-right: 3px solid;"+
+          "\n\tborder-top: 3px solid;"+
+          "\n\tborder-radius: 15px 15px 0 0;",
         startLine_right:
           "margin: 15px 0px;"+
-          "\n\tborder-top: 3px solid #844C18;"+
-          "\n\tborder-right: 3px solid #844C18;"+
-          "\n\tborder-bottom: 3px solid #844C18;"+
-          "\n\tborder-radius: 0 15px 15px 0;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder-top: 3px solid;"+
+          "\n\tborder-right: 3px solid;"+
+          "\n\tborder-bottom: 3px solid;"+
+          "\n\tborder-radius: 0 15px 15px 0;",
         startLine_bottom:
           "margin: 0px 15px;"+
-          "\n\tborder-left: 3px solid #844C18;"+
-          "\n\tborder-right: 3px solid #844C18;"+
-          "\n\tborder-bottom: 3px solid #844C18;"+
-          "\n\tborder-radius: 0 0 15px 15px;"+
-          "\n\tbackground-color: #F37C22;",
+          "\n\tborder-left: 3px solid;"+
+          "\n\tborder-right: 3px solid;"+
+          "\n\tborder-bottom: 3px solid;"+
+          "\n\tborder-radius: 0 0 15px 15px;",
         startLine_left:
           "margin: 15px 0px;"+
-          "\n\tborder-left: 3px solid #844C18;"+
-          "\n\tborder-top: 3px solid #844C18;"+
-          "\n\tborder-bottom: 3px solid #844C18;"+
-          "\n\tborder-radius: 15px 0 0 15px;"+
-          "\n\tbackground-color: #F37C22;"
+          "\n\tborder-left: 3px solid;"+
+          "\n\tborder-top: 3px solid;"+
+          "\n\tborder-bottom: 3px solid;"+
+          "\n\tborder-radius: 15px 0 0 15px;",
+        colorLine_F37C22:
+          "background-color: #F37C22;"+
+          "\n\tborder-color: #844C18;"
+        // colorLine_F300B4:
+        //   "background-color: #F300B4;"+
+        //   "\n\tborder-color: #840065;"
+
     };
 
-    constructor(pixelWidth =40 ,pixelHeight= 40 ,height,parent) {
+    constructor(pixelWidth = 40 ,pixelHeight = 40 ,height ,lineColor ,parent) {
         this.drawingSpace = document.createElement("div");
         this.pixelWidth = pixelWidth;
         this.pixelHeight = pixelHeight;
         this.height = height;
         this.parent = parent;
+        this.lineColor = lineColor;
     }
 
     // getters and setters
@@ -98,11 +99,14 @@ class DrawingSpace{
     setParent(parent){
         this.parent = parent;
     }
+    setLineColor(lineColor){
+        this.lineColor = lineColor;
+    }
+    getLineColor(){
+        return this.lineColor;
+    }
     getDrawingSpace(){
         return this.drawingSpace;
-    }
-    fillThaPixel(){
-        this.style.backgroundColor = "red";
     }
 
     // create node
@@ -127,23 +131,23 @@ class DrawingSpace{
 
     // add the right css class to nade depending on desired shape
     dot(element){
-        element.className += " dot";
+        element.className += " dot colorLine_F37C22";
     }
     horizontalLine(element){
-        element.className += " horizontalLine";
+        element.className += " horizontalLine colorLine_F37C22";
     }
     verticalLine(element){
-        element.className += " verticalLine";
+        element.className += " verticalLine colorLine_F37C22";
     }
     startLine(element, dir){
         if(dir === "top"){//
-            element.className += "startLine_top";
+            element.className += " startLine_top colorLine_F37C22";
         }else if(dir === "right"){
-            element.className += " startLine_right";
+            element.className += " startLine_right colorLine_F37C22";
         }else if(dir === "bottom"){//
-            element.className += " startLine_bottom";
+            element.className += " startLine_bottom colorLine_F37C22";
         }else if(dir === "left"){
-            element.className += " startLine_left";
+            element.className += " startLine_left colorLine_F37C22";
         }
     }
 
@@ -188,7 +192,7 @@ class DrawingSpace{
                 listOfDirDivs[4].style.margin="3px 0";
             }
         }
-        return  " edited "+top+right+bottom+left+circleInCenter;
+        return  "node edited "+top+right+bottom+left+circleInCenter;
     }//
 
     top = "0";
@@ -242,26 +246,20 @@ class DrawingSpace{
         for (let i = 0; i < dt.length; i++) {
             (dt[i]==1)?cont++:cont=0;
             if(cont==2){ //1100 1110 1111 0011 0110 0111 1101 1011
-                element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
+                element.className = this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
                 break;
             }
         }
-        if(TRBL=="1000"){
-            element.className += this.allTheShape(this.bottom,this.right,this.top,this.left,"0",listOfDirDivs);
-        }else if(TRBL=="0100"){
-            element.className += this.allTheShape(this.top,this.left,this.bottom,this.right,"0",listOfDirDivs);
-        }else if(TRBL=="0010"){
-            element.className += this.allTheShape(this.bottom,this.right,this.top,this.left,"0",listOfDirDivs);
-        }else if(TRBL=="0001"){
-            element.className += this.allTheShape(this.top,this.left,this.bottom,this.right,"0",listOfDirDivs);
-        }else if(TRBL=="1010"){
-            element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"0",listOfDirDivs);
-        }else if(TRBL=="0101"){
-            element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"0",listOfDirDivs);
+        if(TRBL=="1000" || TRBL == "0010"){
+            element.className = this.allTheShape(this.bottom,this.right,this.top,this.left,"0",listOfDirDivs);
+        }else if(TRBL=="0100" || TRBL=="0001"){
+            element.className = this.allTheShape(this.top,this.left,this.bottom,this.right,"0",listOfDirDivs);
+        }else if(TRBL=="1010" || TRBL=="0101"){
+            element.className = this.allTheShape(this.top,this.right,this.bottom,this.left,"0",listOfDirDivs);
         }else if(TRBL=="1001"){
-            element.className += this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
+            element.className = this.allTheShape(this.top,this.right,this.bottom,this.left,"1",listOfDirDivs);
         }else{
-            element.className += this.allTheShape("0","0","0","0","1",listOfDirDivs);
+            element.className = this.allTheShape("0","0","0","0","1",listOfDirDivs);
         }            
     }//
     
@@ -274,7 +272,8 @@ class DrawingSpace{
           //create same Css Class
 
         let cssClassList=["node","centerCol","circle","drawingSpace","dot","horizontalLine"
-            ,"verticalLine","startLine_top","startLine_right","startLine_bottom","startLine_left"]
+            ,"verticalLine","startLine_top","startLine_right","startLine_bottom","startLine_left"
+            ,"colorLine_F37C22","colorLine_F300B4"]
         
         let toolsHelper = new ToolsHelper();
         cssClassList.forEach(element => {
@@ -309,32 +308,16 @@ class DrawingSpace{
                 this.listOfNodes[i][j]=timp;
 
                 let listOfDirDivs=this.createNode(timp);
-                // EVENT
-                // this.drawingSpace.addEventListener('mousedown', function (evt) {
-                //     timp.addEventListener('click', function handler(evt) {
-                //         console.log("sss")
-                //         if (evt.type === 'mouseup') {
-                //             console.log("asd")
-                //         // click
-                //       } else {
-                //         // drag
-                       
-                //       }
-                //     });
-                //   });
 
-                  let drag = false;
+                let drag = false;
 
                 document.addEventListener('mousedown', () => drag = true);
-                
                 document.addEventListener('mouseup', () =>  drag = false);
                 document.addEventListener('drag', () =>  drag = false);
                 document.addEventListener('drop', () =>  drag = false);
-                // document.addEventListener('click', () => {});
-                // document.addEventListener('mousemove', () => {});
                 timp.addEventListener("mousemove",(e) =>{
                     if(!timp.classList.contains("edited") && drag){
-                        
+
                         this.displayNode(timp,listOfDirDivs);
                         
                         this.listEl.forEach((element)=>{
@@ -365,7 +348,7 @@ export default DrawingSpace;
 
 // 132,76,24
 
-// #840065   #F300B4
+// 
 
 // 132,0,101
 // 243,0,180
